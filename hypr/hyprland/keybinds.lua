@@ -1,12 +1,11 @@
 local vars = require("variables")
-local fn   = require("utils.functions")
-
+local fn = require("utils.functions")
 
 -- Flags
-local locked           = { locked = true }
-local mouse            = { mouse = true }
-local release          = { release = true }
-local repeating        = { repeating = true }
+local locked = { locked = true }
+local mouse = { mouse = true }
+local release = { release = true }
+local repeating = { repeating = true }
 local locked_repeating = { locked = true, repeating = true }
 
 local function normalise_keybind(key)
@@ -43,13 +42,9 @@ end
 
 -- Launcher
 local launcher_default = normalise_keybind("SUPER + SUPER_L")
-create_bind(
-    vars.kbLauncher,
-    hl.dsp.global("caelestia:launcher"),
-    function(key)
-        return normalise_keybind(key) == launcher_default and release or nil
-    end
-)
+create_bind(vars.kbLauncher, hl.dsp.global("caelestia:launcher"), function(key)
+    return normalise_keybind(key) == launcher_default and release or nil
+end)
 
 -- Misc
 create_bind(vars.kbSession, hl.dsp.global("caelestia:session"))
@@ -66,11 +61,7 @@ end)
 
 -- Kill/restart
 create_bind("CTRL + SUPER + SHIFT + R", hl.dsp.exec_cmd("qs -c caelestia kill"), release)
-create_bind(
-    "CTRL + SUPER + ALT + R",
-    hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"),
-    release
-)
+create_bind("CTRL + SUPER + ALT + R", hl.dsp.exec_cmd("qs -c caelestia kill; sleep .1; caelestia shell -d"), release)
 
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
@@ -127,7 +118,9 @@ create_bind(vars.kbWindowPip, function()
     local a = hl.get_active_window()
     if a then
         local pip = fn.move_actions(a) or {}
-        if not a.floating then table.insert(pip, 1, hl.dsp.window.float()) end
+        if not a.floating then
+            table.insert(pip, 1, hl.dsp.window.float())
+        end
         table.insert(pip, hl.dsp.window.pin({ action = "on", window = "address:" .. a.address }))
 
         for _, x in ipairs(pip) do
@@ -175,13 +168,20 @@ create_bind({ vars.kbMediaPrev, "XF86AudioPrev" }, hl.dsp.global("caelestia:medi
 create_bind({ vars.kbMediaStop, "XF86AudioStop" }, hl.dsp.global("caelestia:mediaStop"), locked)
 
 -- Volume
-create_bind({ vars.kbVolumeMute, "XF86AudioMute" }, hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"), locked)
+create_bind(
+    { vars.kbVolumeMute, "XF86AudioMute" },
+    hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+    locked
+)
 create_bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), locked)
 create_bind(
     "XF86AudioRaiseVolume",
     hl.dsp.exec_cmd(
-        "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l " ..
-        (vars.volumeMax / 100) .. " @DEFAULT_AUDIO_SINK@ " .. vars.volumeStep .. "%+"
+        "wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l "
+            .. (vars.volumeMax / 100)
+            .. " @DEFAULT_AUDIO_SINK@ "
+            .. vars.volumeStep
+            .. "%+"
     ),
     locked_repeating
 )
@@ -210,8 +210,8 @@ create_bind(
 create_bind(
     "SUPER + ALT + F12",
     hl.dsp.exec_cmd(
-        "notify-send -u low -i dialog-information-symbolic 'Test notification' " ..
-        [["Here's a really long message to test truncation and wrapping\nYou can middle click or flick this notification to dismiss it!"]] ..
-        " -a 'Shell' -A 'Test1=I got it!' -A 'Test2=Another action'"
+        "notify-send -u low -i dialog-information-symbolic 'Test notification' "
+            .. [["Here's a really long message to test truncation and wrapping\nYou can middle click or flick this notification to dismiss it!"]]
+            .. " -a 'Shell' -A 'Test1=I got it!' -A 'Test2=Another action'"
     )
 )

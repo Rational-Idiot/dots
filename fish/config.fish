@@ -7,8 +7,13 @@ if status is-interactive
     command -v zoxide &> /dev/null && zoxide init fish --cmd cd | source
 
     # Better ls
-    command -v eza &> /dev/null && alias ls='eza --icons --group-directories-first -1'
+    command -v eza &> /dev/null && alias ls='eza --icons --group-directories-first '
 
+
+    #Emacs
+    function em
+        emacsclient -c -n $argv
+    end
     # Abbrs
     abbr l 'ls'
     abbr ll 'ls -l'
@@ -17,7 +22,6 @@ if status is-interactive
     abbr lt 'ls --tree'
     abbr timeshift 'sudo -E timeshift-gtk'
     abbr zi '__zoxide_zi'
-    abbr nmtui 'impala'
     abbr logout 'loginctl terminate-user $USER'
 
     # Custom colours
@@ -49,15 +53,5 @@ end
 
 bind -M insert \cf fzf_history_search
 
-# Proxy settings - START
-set -gx http_proxy "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx https_proxy "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx HTTP_PROXY "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx HTTPS_PROXY "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx ftp_proxy "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx FTP_PROXY "http://IIT2024128:Ether%409095@172.31.2.3:8080"
-set -gx no_proxy "localhost,127.0.0.1,::1"
-set -gx NO_PROXY "localhost,127.0.0.1,::1"
-# Proxy settings - END
 
 
